@@ -5,6 +5,22 @@
  * @module SirenBuilder
  */
 
+function addAction(action) {
+  this.addAction(action.name, SirenAction.from(action));
+}
+
+function addClass(clazz) {
+  this.addClass(clazz);
+}
+
+function addField(field) {
+  this.addField(field.name, SirenField.from(field));
+}
+
+function addLink(link) {
+  this.addLink(link.rel, SirenLink.from(link));
+}
+
 function ensureArray(value) {
   if (!Array.isArray(value)) {
     return [value];
@@ -233,11 +249,10 @@ class SirenAction {
       action.setType(type);
     }
     if (Array.isArray(fields)) {
-      fields.forEach((field) =>
-        action.addField(field.name, SirenField.from(field)));
+      fields.forEach(addField, action);
     }
     if (Array.isArray(existing.class)) {
-      existing.class.forEach((clazz) => action.addClass(clazz));
+      existing.class.forEach(addClass, action);
     }
     return action;
   }
@@ -458,14 +473,12 @@ class SirenEntity {
   static from(existing) {
     const entity = SirenEntity.create();
     const { actions, links, rel, properties } = existing;
-    existing.class.forEach((clazz) => entity.addClass(clazz));
+    existing.class.forEach(addClass, entity);
     if (Array.isArray(actions)) {
-      actions.forEach((action) =>
-        entity.addAction(action.name, SirenAction.from(action)));
+      actions.forEach(addAction, entity);
     }
     if (Array.isArray(links)) {
-      links.forEach((link) =>
-        entity.addLink(link.rel, SirenLink.from(link)));
+      links.forEach(addLink, entity);
     }
     if (rel != null) {
       entity.setRel(rel);
@@ -621,7 +634,7 @@ class SirenField {
       field.setValue(value);
     }
     if (Array.isArray(existing.class)) {
-      existing.class.forEach((clazz) => field.addClass(clazz));
+      existing.class.forEach(addClass, field);
     }
     return field;
   }
@@ -769,7 +782,7 @@ class SirenLink {
       link.setType(type);
     }
     if (Array.isArray(existing.class)) {
-      existing.class.forEach((clazz) => link.addClass(clazz));
+      existing.class.forEach(addClass, link);
     }
     return link;
   }
