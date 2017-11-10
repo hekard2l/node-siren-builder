@@ -272,6 +272,33 @@ Tap.test('siren example', (t) => {
   t.done();
 });
 
+Tap.test('addEntities', (t) => {
+  const entity = Siren.entity()
+    .addEntities('item', [
+      Siren.entity().addProperty('salutation', 'Hallo!'),
+      Siren.link().setHref('https://api.example.org/yo')
+    ])
+    .clone();
+
+  const expected = {
+    entities: [
+      {
+        rel: ['item'],
+        properties: {
+          salutation: 'Hallo!'
+        }
+      },
+      {
+        rel: ['item'],
+        href: 'https://api.example.org/yo'
+      }
+    ]
+  };
+  t.deepEqual(entity.toJSON(), expected);
+
+  t.done();
+});
+
 Tap.test('addProperties', (t) => {
   const actual = Siren.entity()
     .addProperty('beforeProp', 'should be kept')

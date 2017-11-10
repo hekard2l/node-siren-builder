@@ -5,6 +5,10 @@
  * @module SirenBuilder
  */
 
+function addEntity(entity) {
+  this.context.addEntity(this.rel, entity);
+}
+
 function ensureArray(value) {
   if (!Array.isArray(value)) {
     return [value];
@@ -334,6 +338,17 @@ class SirenEntity {
       this._entities = [];
     }
     this._entities.push(new SirenEntityAttachment(ensureArray(rel), entity));
+    return this;
+  }
+
+  /**
+   * Adds sub-entities as either an embedded representations or links.
+   * @param {(string|string[])} rel
+   * @param {(SirenEntity|SirenLink)[]} entities
+   * @return {SirenEntity}
+   */
+  addEntities(rel, entities) {
+    entities.forEach(addEntity, { context: this, rel });
     return this;
   }
 
