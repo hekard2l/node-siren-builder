@@ -346,11 +346,8 @@ Tap.test('readme example', (t) => {
   t.done();
 });
 
-Tap.test('from existing siren entity', (t) => {
+Tap.test('from copies siren entity actions', (t) => {
   const expected = Siren.entity()
-    .addClass('home')
-    .addProperty('version', '2.4.1')
-    .addProperty('health', 'green')
     .addAction('find-widget', Siren.action()
       .setTitle('Find Widget')
       .setMethod('GET')
@@ -358,12 +355,46 @@ Tap.test('from existing siren entity', (t) => {
       .setType('application/x-www-form-urlencoded')
       .addField('q', Siren.field()
         .setType('text')))
-    .addLink('self', Siren.link()
-      .setHref('https://api.example.org/'))
     .toJSON();
 
-  const actual = Siren.entity.from(expected)
+  const actual = Siren.entity.from(expected) .toJSON();
+
+  t.deepEqual(actual, expected);
+  t.done();
+});
+
+Tap.test('from copies siren entity classes', (t) => {
+  const expected = Siren.entity()
+    .addClass('existing')
     .toJSON();
+
+  const actual = Siren.entity.from(expected).toJSON();
+
+  t.deepEqual(actual, expected);
+  t.done();
+});
+
+Tap.test('from copies siren entity properties', (t) => {
+  const expected = Siren.entity()
+    .addProperty('version', '2.4.1')
+    .addProperty('health', 'green')
+    .toJSON();
+
+  const actual = Siren.entity.from(expected).toJSON();
+
+  t.deepEqual(actual, expected);
+  t.done();
+});
+
+Tap.test('from copies siren entity links', (t) => {
+  const expected = Siren.entity()
+    .addLink('self', Siren.link()
+      .setHref('https://api.example.org/'))
+    .addLink('other', Siren.link()
+      .setHref('https://other.example.org/'))
+    .toJSON();
+
+  const actual = Siren.entity.from(expected).toJSON();
 
   t.deepEqual(actual, expected);
   t.done();
