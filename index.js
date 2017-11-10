@@ -214,6 +214,33 @@ class SirenAction {
     return new SirenAction();
   }
 
+  static from(existing) {
+    const { href, method, name, title, type, fields } = existing;
+    const action = SirenAction.create();
+    if (href != null) {
+      action.setHref(href);
+    }
+    if (method != null) {
+      action.setMethod(method);
+    }
+    if (name != null) {
+      action.setName(name);
+    }
+    if (title != null) {
+      action.setTitle(title);
+    }
+    if (type != null) {
+      action.setType(type);
+    }
+    if (Array.isArray(fields)) {
+      fields.forEach((field) =>
+        action.addField(field.name, SirenField.from(field)));
+    }
+    if (Array.isArray(existing.class)) {
+      existing.class.forEach((clazz) => action.addClass(clazz));
+    }
+    return action;
+  }
 }
 
 /**
@@ -428,6 +455,27 @@ class SirenEntity {
     return new SirenEntity();
   }
 
+  static from(existing) {
+    const entity = SirenEntity.create();
+    const { actions, links, rel, properties } = existing;
+    existing.class.forEach((clazz) => entity.addClass(clazz));
+    if (Array.isArray(actions)) {
+      actions.forEach((action) =>
+        entity.addAction(action.name, SirenAction.from(action)));
+    }
+    if (Array.isArray(links)) {
+      links.forEach((link) =>
+        entity.addLink(link.rel, SirenLink.from(link)));
+    }
+    if (rel != null) {
+      entity.setRel(rel);
+    }
+    if (properties != null) {
+      entity.addProperties(properties);
+    }
+    return entity;
+  }
+
 }
 
 /**
@@ -557,6 +605,26 @@ class SirenField {
     return new SirenField();
   }
 
+  static from(existing) {
+    const { type, name, title, value } = existing;
+    const field = SirenField.create();
+    if (name != null) {
+      field.setName(name);
+    }
+    if (title != null) {
+      field.setTitle(title);
+    }
+    if (type != null) {
+      field.setType(type);
+    }
+    if (value != null) {
+      field.setValue(value);
+    }
+    if (Array.isArray(existing.class)) {
+      existing.class.forEach((clazz) => field.addClass(clazz));
+    }
+    return field;
+  }
 }
 
 /**
@@ -685,9 +753,30 @@ class SirenLink {
     return new SirenLink();
   }
 
+  static from(existing) {
+    const link = SirenLink.create();
+    const { href, rel, title, type } = existing;
+    if (href != null) {
+      link.setHref(href);
+    }
+    if (rel != null) {
+      link.setRel(rel);
+    }
+    if (title != null) {
+      link.setTitle(title);
+    }
+    if (type != null) {
+      link.setType(type);
+    }
+    if (Array.isArray(existing.class)) {
+      existing.class.forEach((clazz) => link.addClass(clazz));
+    }
+    return link;
+  }
 }
 
 exports.action = SirenAction.create;
 exports.entity = SirenEntity.create;
+exports.entity.from = SirenEntity.from;
 exports.field = SirenField.create;
 exports.link = SirenLink.create;
