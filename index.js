@@ -473,7 +473,9 @@ class SirenEntity {
   static from(existing) {
     const entity = SirenEntity.create();
     const { actions, links, rel, properties } = existing;
-    existing.class.forEach(addClass, entity);
+    if (Array.isArray(existing.class)) {
+      existing.class.forEach(addClass, entity);
+    }
     if (Array.isArray(actions)) {
       actions.forEach(addAction, entity);
     }
