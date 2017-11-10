@@ -21,35 +21,38 @@ const entity = Siren.entity()
     .setHref('https://api.example.org/'));
 
 const siren = entity.toJSON();
+console.log(siren);
+```
 
-// siren = {
-//   class: ['home'],
-//   properties: {
-//     version: '2.4.1',
-//     health: 'green'
-//   },
-//   actions: [
-//     {
-//       name: 'find-widget',
-//       method: 'GET',
-//       href: 'https://api.example.org/widgets/search',
-//       title: 'Find Widget',
-//       type: 'application/x-www-form-urlencoded',
-//       fields: [
-//         {
-//           name: 'q',
-//           type: 'text'
-//         }
-//       ]
-//     }
-//   ],
-//   links: [
-//     {
-//       rel: ['self'],
-//       href: 'https://api.example.org/'
-//     }
-//   ]
-// }
+```
+{
+  class: ['home'],
+  properties: {
+    version: '2.4.1',
+    health: 'green'
+  },
+  actions: [
+    {
+      name: 'find-widget',
+      method: 'GET',
+      href: 'https://api.example.org/widgets/search',
+      title: 'Find Widget',
+      type: 'application/x-www-form-urlencoded',
+      fields: [
+        {
+          name: 'q',
+          type: 'text'
+        }
+      ]
+    }
+  ],
+  links: [
+    {
+      rel: ['self'],
+      href: 'https://api.example.org/'
+    }
+  ]
+}
 ```
 
 ## Installation
