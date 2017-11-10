@@ -345,3 +345,26 @@ Tap.test('readme example', (t) => {
   t.deepEqual(actual, expected);
   t.done();
 });
+
+Tap.test('from existing siren entity', (t) => {
+  const expected = Siren.entity()
+    .addClass('home')
+    .addProperty('version', '2.4.1')
+    .addProperty('health', 'green')
+    .addAction('find-widget', Siren.action()
+      .setTitle('Find Widget')
+      .setMethod('GET')
+      .setHref('https://api.example.org/widgets/search')
+      .setType('application/x-www-form-urlencoded')
+      .addField('q', Siren.field()
+        .setType('text')))
+    .addLink('self', Siren.link()
+      .setHref('https://api.example.org/'))
+    .toJSON();
+
+  const actual = Siren.entity.from(expected)
+    .toJSON();
+
+  t.deepEqual(actual, expected);
+  t.done();
+});
